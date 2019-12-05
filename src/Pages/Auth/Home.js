@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
+import Nav from "../../Components/Nav";
 
 class Home extends Component {
 
-    componentWillMount(){
-        
-    }
     render() {
         return (
             <div>
+                <Nav></Nav>
                 <h1>Hello Word</h1>
             </div>
         )

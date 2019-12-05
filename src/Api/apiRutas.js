@@ -2,6 +2,7 @@
 const DNS = {
     smart: '192.168.3.128',
     smartlocal: '192.168.3.128',
+    configlogin: '190.145.56.148'
 };
 
 
@@ -9,6 +10,7 @@ const DNS = {
 // --- Puertos de las api
 const PORT = {
     confmobi: '8090',
+    conflogin: '8091',
 };
 
 /**
@@ -22,5 +24,6 @@ export const ROUTES = {
    * @url /confmobi/getConfi
    * @desc api para obtener un cliente concatenando el ID
    */
-    CONFIG: `http://${DNS.smart}:${PORT.confmobi}/confmobi/getConfi/`
+    CONFIG: `http://${DNS.smart}:${PORT.confmobi}/confmobi/getConfi/`,
+    LOGIN:  `http://${DNS.configlogin}:${PORT.conflogin}/usermana/authentiMobi`,
 }
