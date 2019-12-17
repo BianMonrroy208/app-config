@@ -28,6 +28,8 @@ class configTheme extends Component {
 
     }
   }
+
+
   
 
   render() {
@@ -39,7 +41,7 @@ class configTheme extends Component {
           <section className="row justify-content-center">
             <section className="col-12 col-sm-6 col-md-8">
               <div className="mt-4">
-                <form onSubmit={this._getConfig}>
+                <form>
                   {this.Inputs()}
                 </form>
               </div>

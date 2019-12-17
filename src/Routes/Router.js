@@ -7,12 +7,12 @@ import { Options } from '../Pages/Options'
 function Router() {
     return (
         <Switch>
-            <Route exact path='/' component={Login} />
-            <Route exact path="/home" component={Home}/>
-            <Route exact path='/configTitul' component={configTitul}/>
-            <Route exact path='/options' component={Options}/>
-            <Route exact path='/configTheme' component={configTheme}/>
-            <Route exact path='/configImage' component={configImage}/>
+            <Route exact path='/option' component={Login} />
+            <Route path="/home" component={Home}/>
+            <Route path='/configTitul' component={configTitul}/>
+            <Route exact path='/' component={Options}/>
+            <Route path='/configTheme' component={configTheme}/>
+            <Route path='/configImage' component={configImage}/>
         </Switch>
     )
 }

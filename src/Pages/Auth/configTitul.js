@@ -17,33 +17,29 @@ class configTitul extends Component {
 
     await JSON.stringify(this.props.config) !== "{}" ? this.setState({ config: this.props.config, success: true, }) : window.location.href = "/home"
 
-
-
-
   }
 
-  Inputs = () => {
+  _getInputs = () => {
+
+    const LIST = this.state.config.listPage
+
+    // console.log(this.state.config);
 
     if (this.state.success) {
 
-
- 
-      return this.state.config.listPage.map((item, index) => {
-
+      return LIST.map((item, index) => {
         return (
 
-          <div className="col-md12 mt-5" key={index}>
+          <div className="col-md-12 mt-5 " key={index}>
 
-            <h4 className="text-primary">{item.descPage}</h4>
-            <div className="form-group">
+            <h4 className="display-5 text-secondary">{item.descPage}</h4>
 
+            <div className="col-md-12 mt-3 ">
               {item.listArea.map((list, index) => {
-
                 return (
+                  <div className="col-md-12 mt-5" key={index}>
 
-                  <div key={index} className="form-group">
-
-                    <h5 className="text-info">{list.descArea}</h5>
+                    <h5 className="text-secondary">{list.descArea}</h5>
 
                     {list.listComp.map((list, index) => {
 
@@ -54,49 +50,120 @@ class configTitul extends Component {
                           <label htmlFor="">{list.descComp}</label>
                           {
                             (!list.seleComp) ?
-                              <input type="text" className="form-control " defaultValue={(list.labeComp) ? list.labeComp : list.valuComp} />
+
+                              <input type="text" className="form-control" id={list.codeComp} aria-describedby="emailHelp" defaultValue={(list.labeComp) ? list.labeComp : list.valuComp}
+
+                              />
                               :
-                              <div className="form-group-">
+
+                              <div>
                                 {list.seleComp.map((list, index) => {
+
+
+
                                   return (
-                                    <input key={index} type="text" className="form-control" defaultValue={list.labeSeit}></input>
+                                    <input type="text" className="form-control" id={list.codeComp} aria-describedby="emailHelp" key={index} defaultValue={list.labeSeit} />
                                   )
+
                                 })}
+
                               </div>
+
+
                           }
 
                         </div>
+
+
+
                       )
+
                     })}
+
                   </div>
                 )
-              })
-              }
+
+              })}
             </div>
+
           </div>
 
         )
       })
-    }
-    else {
+
+    } else {
       return <div className="spinner-border text-white" style={{ height: 20, width: 20 }} role="status">
         <span className="sr-only">Loading...</span>
       </div>
     }
   }
 
+
+
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+
+    this.setState({ spinner: true })
+
+    let config = this.state.config
+    const url = "http://190.145.56.148:8090/confmobi/actucomo";
+    let child = [...event.target.parentNode.parentNode.parentNode.childNodes[0]]
+    // console.log(JSON.stringify(JSON.stringify(jsonGif)))
+
+    let data = child.map((item, index) => {
+      return item.value
+    })
+
+    let i = 0;
+    for (const prop in config.listPage) {
+      for (const pre in config.listPage[prop].listArea)
+        for (const pri in config.listPage[prop].listArea[pre].listComp)
+          if (config.listPage[prop].listArea[pre].listComp[pri].seleComp) {
+            for (const sele in config.listPage[prop].listArea[pre].listComp[pri].seleComp) {
+              config.listPage[prop].listArea[pre].listComp[pri].seleComp[sele].labeSeit = data[i]
+              // console.log(config.listPage[prop].listArea[pre].listComp[pri].seleComp[sele]); mk tene microfono ? ciclas contesta 
+              i++;
+            }
+          }
+          else {
+            (config.listPage[prop].listArea[pre].listComp[pri].labeComp) ?
+              config.listPage[prop].listArea[pre].listComp[pri].labeComp = data[i] :
+              config.listPage[prop].listArea[pre].listComp[pri].valuComp = data[i]
+            i++;
+          }
+    }
+
+    console.log(config)
+
+
+  }
+
   render() {
     return (
       <div>
-      <Nav/>
-      <h2 className="text-danger text-center mt-5">Esta es la configura de los titulos de la aplicación</h2>
+        <Nav />
+        <div className="jumbotron jumbotron-fluid mt-4 text-center">
+          <div className="container">
+            <h1 className="display-4">Opciones de Tiulos de la Aplicación</h1>
+          </div>
+        </div>
         <section className="container-fluid">
           <section className="row justify-content-center">
             <section className="col-12 col-sm-6 col-md-8">
               <div className="mt-4">
                 <form onSubmit={this._getConfig}>
-                  {this.Inputs()}
+                  {this._getInputs()}
                 </form>
+                <div className="col-md-12 mt-5 d-flex justify-content-end ">
+
+                  <div className="form-group">
+                    <button className="btn btn-danger mr-2" id="delete">Eliminar cliente</button>
+                    <button type="submit" className="btn btn-success" id="save" onClick={this.handleSubmit}>Guardar
+                    </button>
+                  </div>
+
+                </div>
               </div>
             </section>
           </section>
