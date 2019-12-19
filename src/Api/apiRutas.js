@@ -1,8 +1,7 @@
 // --- DNS - direcciones api de los servidores
 const DNS = {
     smart: '190.145.56.148',
-    smartlocal: '192.168.3.128',
-    configlogin: '190.145.56.148'
+    smartlocal: '192.168.3.128'
 };
 
 
@@ -24,17 +23,18 @@ export const ROUTES = {
    * @desc api para obtener un cliente concatenando el ID
    */
     CONFIG: `http://${DNS.smart}:${PORT.confmobi}/confmobi/getConfi/`,
-    LOGIN:  `http://${DNS.configlogin}:${PORT.conflogin}/usermana/authentiMobi`,
-     
+    LOGIN: `http://${DNS.smart}:${PORT.conflogin}/usermana/authentiMobi`,
+    UPCONFIG: `http://${DNS.smart}:${PORT.confmobi}/confmobi/actucomo`,
+
     // ------------------------ OPTIONS  ----------------------------------------
 
     /**
    * @url /confmobi/getConfi
    * @desc api para obtener un cliente concatenando el ID
    */
-   OPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/getPuntatpa`,
-   UPOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/actucomo`,
-   DELOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/remoComo`,
-   CREATEOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/creacomo`
+    OPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/getPuntatpa`,
+    UPOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/actucomo`,
+    DELOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/remoComo`,
+    CREATEOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/creacomo`
 
 }

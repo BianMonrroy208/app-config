@@ -1,47 +1,55 @@
 import React, { Component } from 'react';
 import Nav from "../../Components/Nav";
 import { connect } from 'react-redux';
+/** =============================================================================
+ * @author  Brayan Mauricio Monroy <ingeniero.desarrollo027@serviciosmarttmt.com>
+ * @author  Samuel Londoño <ingeniero.desarrollo020@smarttmt.com>
+ * @since  13.12.2019
+ * @desc  Este componente es el que carga los titulos del cliente
+ * ============================================================================= */
 
 class configTitul extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      config: {},
-      success: false,
-      img: "",
+      config: {},//Variable que recive el Json de el State de Store Redux de la configuación.
+      success: false,//variable que valida se la petición si carga o no.
     }
   }
-
+  /** =============================================================================
+ * @since  13.12.2019
+ * @desc  Este es el metodo que valida si llego bien la petición, si no lo hace se devuelve al login
+ * ============================================================================= */
   async componentWillMount() {
-
     await JSON.stringify(this.props.config) !== "{}" ? this.setState({ config: this.props.config, success: true, }) : window.location.href = "/home"
-
   }
 
+    /** =============================================================================
+ * @since  13.12.2019
+ * @desc  Este es el metodo que retorna todos los input con sus titulos correspondientes y su valor
+ * ============================================================================= */
   _getInputs = () => {
 
-    const LIST = this.state.config.listPage
+    const LIST = this.state.config.listPage // --- Se crea constante pata que guarde el Json que llega de el State de Store Redux
 
-    // console.log(this.state.config);
+    if (this.state.success) { // --- Se valida si la el State de Success es verdadera para que asi carge los componentes 
 
-    if (this.state.success) {
-
-      return LIST.map((item, index) => {
-        return (
+      return LIST.map((item, index) => { // --- Se recorre todos los valores del objeto con el atributo map 
+        return ( //Se retorna
 
           <div className="col-md-12 mt-5 " key={index}>
 
-            <h4 className="display-5 text-secondary">{item.descPage}</h4>
+        <h4 className="display-5 text-secondary">{item.descPage}</h4>  { /**  --- Este es el item que trae todos los titulos de el objeto*/}
 
             <div className="col-md-12 mt-3 ">
-              {item.listArea.map((list, index) => {
+              {item.listArea.map((list, index) => { {/** --- Se recorre otro valor dentro del mismo map para poder acceder al valor del objeto de el Json */}
                 return (
                   <div className="col-md-12 mt-5" key={index}>
 
-                    <h5 className="text-secondary">{list.descArea}</h5>
+                    <h5 className="text-secondary">{list.descArea}</h5> { /**  --- Este es el item que trae todos los Subtitulos de el objeto*/}
 
-                    {list.listComp.map((list, index) => {
+                    {list.listComp.map((list, index) => { {/**   */}
 
                       return (
 

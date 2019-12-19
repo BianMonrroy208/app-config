@@ -15,7 +15,7 @@ class Options extends Component {
   }
 
   async componentWillMount() {
-    await apiOptions.getOptions("prueba03", 0).then(options => this.setState({ options })).catch((error) => console.log(error))
+    await apiOptions.getOptions(this.props.config.client, 0).then(options => this.setState({ options })).catch((error) => console.log(error))
   }
 
   __getOptions() {
@@ -242,7 +242,7 @@ class Options extends Component {
     let options = this.state.options;
     let newOption = {
       "address": "",
-      "cliename": "prueba03",
+      "cliename": this.props.config.client,
       "email": "",
       "latitude": 0,
       "longitud": 0,
@@ -417,6 +417,7 @@ class Options extends Component {
   render() {
     return (
       <div className="">
+        <Nav/>
         <div className="container">
           <div className="jumbotron jumbotron-fluid mt-4">
             <div className="container d-flex justify-content-center">

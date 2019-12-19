@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Nav } from "../../Components";
 import { connect } from 'react-redux';
+import { apiConfig } from "../../Api";
 
 class configImage extends Component {
     constructor(props) {
@@ -12,21 +13,17 @@ class configImage extends Component {
         this.ImageUpload = this.ImageUpload.bind(this);
     }
     async componentWillMount() {
-        await JSON.stringify(this.props.config) !== "{}" ?
-            this.setState({ config: this.props.config, success: true, image: this.props.config.logo }) :
-            window.location.href = "/home"
+        await this.setState({ config: this.props.config, success: true, image: this.props.config.logo })
     }
 
     ImageUpload(e) {
-        //e.preventDefault();
         let files = e.target.files;
-        //console.log(files);
         let reader = new FileReader();
         reader.readAsDataURL(files[0])
         reader.onload = (e) => {
-            // e.target.result
-            this.setState({image:e.target.result})
-            console.log(this.state.image);
+            this.setState({ image: e.target.result })
+            this.props.config.logo = e.target.result;
+            apiConfig.updateConfig(this.props.config).then(res => console.log(res))
         }
     }
 
@@ -35,18 +32,18 @@ class configImage extends Component {
             <div className="text-center">
                 <Nav />
                 <h1 className="text-center text-danger mt-5">Esta es la Configuración de La Imagen del Cliente</h1>
-                <img className="mt-5" src={this.state.image} />
+                <img className="mt-5" style={{ width: "15%", height: "15%" }} src={this.state.image} />
                 <div className="mt-5">
                     <section className="container-fluid">
                         <section className="row justify-content-center">
                             <section className="col-12 col-sm-6 col-md-8">
                                 <div className="input-group mb-3">
-                                    <div className="custom-file">
-                                        <form>
-                                            <input type="file" className="custom-file-input" name="file" onChange={(e) => this.ImageUpload(e)} />
-                                            <label className="custom-file-label">Elije la Imagen</label>
-                                        </form>
-                                    </div>
+                                    <form className={"w-100"}>
+                                        <div className="custom-file col-md-12">
+                                            <input type="file" className="custom-file-input bg-danger" name="file" placeholder="Elige tu imagen" onChange={(e) => this.ImageUpload(e)} />
+                                            <label class="custom-file-label" for="validatedCustomFile">Eligir imagen</label>
+                                        </div>
+                                    </form>
                                 </div>
                             </section>
                         </section>
