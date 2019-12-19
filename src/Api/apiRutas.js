@@ -32,5 +32,9 @@ export const ROUTES = {
    * @url /confmobi/getConfi
    * @desc api para obtener un cliente concatenando el ID
    */
-   OPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/getPuntatpa`
+   OPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/getPuntatpa`,
+   UPOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/actucomo`,
+   DELOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/remoComo`,
+   CREATEOPTION: `http://${DNS.smart}:${PORT.confmobi}/puntatpa/creacomo`
+
 }
