@@ -8,8 +8,8 @@ class Options extends Component {
     options: [],
     data: [],
     optionEdit: {},
-    phones: [<input type="text" className="form-control mb-2" name="phone" />],
-    offiHour: [<input type="text" className="form-control mb-2" name="offiHour" />],
+    phones: [<input type="text" className="form-control mb-2" name="phone" required/>],
+    offiHour: [<input type="text" className="form-control mb-2" name="offiHour" required/>],
     typesucu: "1",
 
   }
@@ -212,7 +212,7 @@ class Options extends Component {
                   (this.state.optionEdit.typesucu === "1") ?
                     <div className="form-group">
                       <label className="text-dark">Email</label>
-                      <input type="text" className="form-control" name="email" defaultValue={this.state.optionEdit.email} />
+                      <input type="email" className="form-control" name="email" defaultValue={this.state.optionEdit.email} />
                     </div> : null
                 }
                 <div className="form-group">
@@ -312,7 +312,7 @@ class Options extends Component {
                   (this.state.typesucu === "1") ?
                     <div className="form-group">
                       <label className="text-dark">Email</label>
-                      <input type="text" className="form-control" name="email" />
+                      <input type="email" className="form-control" name="email" />
                     </div>
                     : null
                 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Nav } from "../../Components";
 import { connect } from 'react-redux';
 import { apiConfig } from '../../Api';
-
+import {ToastsStore, ToastsContainer } from 'react-toasts';
 class configTheme extends Component {
   constructor(props) {
     super(props)
@@ -40,14 +40,24 @@ class configTheme extends Component {
   onSubmit = async e => {
     e.preventDefault();
     this.state.config.theme = { coloPrim : this.state.coloPrim, coloHili : this.state.coloHili, coloStba : this.state.coloStba }
-    await apiConfig.updateConfig(this.state.config).then(res => console.log(res))
-  }
+    await apiConfig.updateConfig(this.state.config).then(res => {
+      if (res.id){
+        ToastsStore.success("Se cambio los colores correctamente")
+      }else{
+        ToastsStore.error("Error al cambiar los colores")
+      }
+    })
+  } 
   
   render() {
     return (
       <div>
         <Nav />
-        <h2 className="text-danger text-center mt-5">Esta es la configura de los titulos de la aplicación</h2>
+        <div className="jumbotron jumbotron-fluid mt-4 text-center">
+        <div className="container">
+          <h1 className="display-4">Opciones de Colores de la Aplicación</h1>
+        </div>
+      </div>
         <section className="container-fluid">
           <section className="row justify-content-center">
             <section className="col-12 col-sm-6 col-md-8">
@@ -62,6 +72,7 @@ class configTheme extends Component {
             </section>
           </section>
         </section>
+        <ToastsContainer store={ToastsStore}/>
       </div>
     );
   }

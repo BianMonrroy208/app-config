@@ -67,7 +67,7 @@ class Login extends Component {
                                 <button type="submit" className="btn btn-primary btn-block">Iniciar Sesión</button>
                             </div>
                         </form>
-                        {/** Client Input Search*/}
+                        {/** Client Input Search  //  Cliente a buscar*/}
                         {this.state.success && <Search context={this}/>}
                     </div>
                 </div>

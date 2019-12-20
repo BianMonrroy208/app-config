@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Nav from "../../Components/Nav";
 import { connect } from 'react-redux';
+import { apiConfig } from "../../Api";
+import {ToastsStore, ToastsContainer } from 'react-toasts';
 /** =============================================================================
  * @author  Brayan Mauricio Monroy <ingeniero.desarrollo027@serviciosmarttmt.com>
  * @author  Samuel Londoño <ingeniero.desarrollo020@smarttmt.com>
@@ -144,7 +146,15 @@ class configTitul extends Component {
 
     console.log(config)
 
-
+    //apiConfig.updateConfig(this.state.config).then(res => console.log(res))
+    apiConfig.updateConfig(config).then(res => {
+      if (res.id) {
+        ToastsStore.success("Se actualizo correcatemente!")
+      } else {
+        ToastsStore.error("No se puedo actualizar Correctamente!")
+      }
+    })
+   
   }
 
   render() {
@@ -176,6 +186,7 @@ class configTitul extends Component {
             </section>
           </section>
         </section>
+        <ToastsContainer store={ToastsStore}/>
       </div>
     );
   }

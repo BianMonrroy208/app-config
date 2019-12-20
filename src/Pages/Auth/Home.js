@@ -14,7 +14,11 @@ class Home extends Component {
         return (
             <div className="text-secondary">
                 <Nav/>
-                <h1 className="mt-4">Manual</h1>
+                <div className="jumbotron jumbotron-fluid mt-4 text-center">
+                <div className="container">
+                  <h1 className="display-4">Manual de uso de la Configuración</h1>
+                </div>
+              </div>
             </div>
         )
     }
