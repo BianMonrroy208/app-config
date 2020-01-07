@@ -16,7 +16,7 @@ class Search extends React.Component {
         }
         this._getConfig = this._getConfig.bind(this)
     }
-
+  
 
     async _getConfig(event) {
         event.preventDefault();
@@ -46,12 +46,12 @@ class Search extends React.Component {
                             boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
                         }}>
                             <div className="form-group">
-                                <label className="font-weight-lighter" >Dijite su Usuario!</label>
+                                <label className="font-weight-dark" >Dijite su Usuario!</label>
                                 <input type="text" className="form-control" id="exampleInputPassword1"
                                     onChange={(event) => this.setState({ client: event.target.value })} />
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-light border">Ir al menu de opciones {(this.state.reload) ? <div className="spinner-border text-white" style={{ height: 20, width: 20 }} role="status">
+                                <button type="submit" className="btn btn-light border">Ir al menu de opciones {(this.state.reload) ? <div className="spinner-border text-dark" style={{ height: 20, width: 20 }} role="status">
                                     <span className="sr-only">Loading...</span>
                                 </div> : null}</button>
                     </div>

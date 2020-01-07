@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from "../../Components/Nav";
 import { connect } from 'react-redux';
 import { apiConfig } from "../../Api";
-import {ToastsStore, ToastsContainer } from 'react-toasts';
+import { ToastsStore, ToastsContainer } from 'react-toasts';
 /** =============================================================================
  * @author  Brayan Mauricio Monroy <ingeniero.desarrollo027@serviciosmarttmt.com>
  * @author  Samuel Londoño <ingeniero.desarrollo020@smarttmt.com>
@@ -17,6 +17,7 @@ class configTitul extends Component {
     this.state = {
       config: {},//Variable que recive el Json de el State de Store Redux de la configuación.
       success: false,//variable que valida se la petición si carga o no.
+      spinner: false,//Variable que se utiliza para el sniper de carga
     }
   }
   /** =============================================================================
@@ -27,10 +28,10 @@ class configTitul extends Component {
     await JSON.stringify(this.props.config) !== "{}" ? this.setState({ config: this.props.config, success: true, }) : window.location.href = "/home"
   }
 
-    /** =============================================================================
- * @since  13.12.2019
- * @desc  Este es el metodo que retorna todos los input con sus titulos correspondientes y su valor
- * ============================================================================= */
+  /** =============================================================================
+* @since  13.12.2019
+* @desc  Este es el metodo que retorna todos los input con sus titulos correspondientes y su valor
+* ============================================================================= */
   _getInputs = () => {
 
     const LIST = this.state.config.listPage // --- Se crea constante pata que guarde el Json que llega de el State de Store Redux
@@ -42,16 +43,18 @@ class configTitul extends Component {
 
           <div className="col-md-12 mt-5 " key={index}>
 
-        <h4 className="display-5 text-secondary">{item.descPage}</h4>  { /**  --- Este es el item que trae todos los titulos de el objeto*/}
+            <h4 className="display-5 text-secondary">{item.descPage}</h4>  { /**  --- Este es el item que trae todos los titulos de el objeto*/}
 
             <div className="col-md-12 mt-3 ">
-              {item.listArea.map((list, index) => { {/** --- Se recorre otro valor dentro del mismo map para poder acceder al valor del objeto de el Json */}
+              {item.listArea.map((list, index) => {
+                {/** --- Se recorre otro valor dentro del mismo map para poder acceder al valor del objeto de el Json */ }
                 return (
                   <div className="col-md-12 mt-5" key={index}>
 
                     <h5 className="text-secondary">{list.descArea}</h5> { /**  --- Este es el item que trae todos los Subtitulos de el objeto*/}
 
-                    {list.listComp.map((list, index) => { {/**   */}
+                    {list.listComp.map((list, index) => {
+                      {/** --- Este es el item que trae todos los valores que se utilizaran e los inputs de el objeto  */ }
 
                       return (
 
@@ -59,7 +62,7 @@ class configTitul extends Component {
 
                           <label htmlFor="">{list.descComp}</label>
                           {
-                            (!list.seleComp) ?
+                            (!list.seleComp) ? /** -- Se valida si el componente tiene alguna valor */
 
                               <input type="text" className="form-control" id={list.codeComp} aria-describedby="emailHelp" defaultValue={(list.labeComp) ? list.labeComp : list.valuComp}
 
@@ -67,7 +70,7 @@ class configTitul extends Component {
                               :
 
                               <div>
-                                {list.seleComp.map((list, index) => {
+                                {list.seleComp.map((list, index) => { /** --Se le asigna los valores de los inputs  */
 
 
 
@@ -113,7 +116,6 @@ class configTitul extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-
     this.setState({ spinner: true })
 
     let config = this.state.config
@@ -132,7 +134,7 @@ class configTitul extends Component {
           if (config.listPage[prop].listArea[pre].listComp[pri].seleComp) {
             for (const sele in config.listPage[prop].listArea[pre].listComp[pri].seleComp) {
               config.listPage[prop].listArea[pre].listComp[pri].seleComp[sele].labeSeit = data[i]
-              // console.log(config.listPage[prop].listArea[pre].listComp[pri].seleComp[sele]); mk tene microfono ? ciclas contesta 
+              // console.log(config.listPage[prop].listArea[pre].listComp[pri].seleComp[sele]);
               i++;
             }
           }
@@ -149,12 +151,14 @@ class configTitul extends Component {
     //apiConfig.updateConfig(this.state.config).then(res => console.log(res))
     apiConfig.updateConfig(config).then(res => {
       if (res.id) {
+        this.setState({ spinner: false })
         ToastsStore.success("Se actualizo correcatemente!")
       } else {
+        this.setState({ spinner: false })
         ToastsStore.error("No se puedo actualizar Correctamente!")
       }
     })
-   
+
   }
 
   render() {
@@ -176,9 +180,9 @@ class configTitul extends Component {
                 <div className="col-md-12 mt-5 d-flex justify-content-end ">
 
                   <div className="form-group">
-                    <button className="btn btn-danger mr-2" id="delete">Eliminar cliente</button>
-                    <button type="submit" className="btn btn-success" id="save" onClick={this.handleSubmit}>Guardar
-                    </button>
+                    <button type="submit" className="btn btn-success" id="save" onClick={this.handleSubmit}>Guardar {(this.state.spinner) ? <div className="spinner-border text-white" style={{ height: 20, width: 20 }} role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div> : null }</button>
                   </div>
 
                 </div>
@@ -186,7 +190,7 @@ class configTitul extends Component {
             </section>
           </section>
         </section>
-        <ToastsContainer store={ToastsStore}/>
+        <ToastsContainer store={ToastsStore} />
       </div>
     );
   }

@@ -13,7 +13,9 @@ class Login extends Component {
             user: "mobile",
             pass: "Ph2030160",
             resul: [],
-            success: false
+            success: false,
+            reload: false,
+            mensaje: false
         }
         this.__onLogin = this.__onLogin.bind(this);
     }
@@ -22,26 +24,33 @@ class Login extends Component {
     // --- Functions
     __onLogin(event) {
         event.preventDefault();
-        if (this.state.user === "" && this.state.pass === "") {
-            ToastsStore.error("No a digitado Usuario/Contraseña")
+        if (this.state.success == true) {
+            ToastsStore.warning("Ya inicio sesión")
         } else {
-            apiUser.getLogin(this.state.user, this.state.pass).then(user => {
-                if (user.usuario) {
-                    this.setState({ success: true }, () => {
-                        this.props.setUser(user)
-                        ToastsStore.success("Correcto!")
-                    })
-                    // setTimeout(() => this.props.history.push("/home"), 1000)
-                } else {
-                    this.setState({ success: false }, () => {
-                        ToastsStore.error("Usuario invalido!")
-                    })
-                }
-            })
-                .catch(err =>
-                    (err) ? this.setState({ success: false }) : null
-                )
+
+            this.setState({ reload: true })
+            if (this.state.user === "" && this.state.pass === "") {
+                ToastsStore.error("No a digitado Usuario/Contraseña")
+            } else {
+                apiUser.getLogin(this.state.user, this.state.pass).then(user => {
+                    if (user.usuario) {
+                        this.setState({ success: true, reload: false }, () => {
+                            this.props.setUser(user)
+                            ToastsStore.success("Correcto!")
+                        })
+                        // setTimeout(() => this.props.history.push("/home"), 1000)
+                    } else {
+                        this.setState({ success: false, reload: false }, () => {
+                            ToastsStore.error("Usuario invalido!")
+                        })
+                    }
+                })
+                    .catch(err =>
+                        (err) ? this.setState({ success: false }) : null
+                    )
+            }
         }
+
     }
 
     // --- Render
@@ -64,11 +73,13 @@ class Login extends Component {
                                     onChange={(event) => this.setState({ pass: event.target.value })} />
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-primary btn-block">Iniciar Sesión</button>
+                                <button type="submit" className="btn btn-primary btn-block">Iniciar Sesión {(this.state.reload) ? <div className="spinner-border text-white" style={{ height: 20, width: 20 }} role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div> : null}</button>
                             </div>
                         </form>
                         {/** Client Input Search  //  Cliente a buscar*/}
-                        {this.state.success && <Search context={this}/>}
+                        {this.state.success && <Search context={this} />}
                     </div>
                 </div>
                 <ToastsContainer store={ToastsStore} />
